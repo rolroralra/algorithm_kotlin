@@ -7,8 +7,6 @@ fun main() {
 
 }
 
-
-
 class `15` {
     fun threeSum(nums: IntArray): List<List<Int>> {
         val result = mutableListOf<List<Int>>()
