@@ -4,7 +4,6 @@ import java.util.stream.Collectors
 
 fun main() {
     println(`15`().threeSum(intArrayOf(-1,0,1,2,-1,-4,-2,-3,3,0,4)))
-
 }
 
 class `15` {
