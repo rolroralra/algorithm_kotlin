@@ -1,7 +1,20 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import string.Main
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main() {
+//     System.setIn(Main::class.java.getResourceAsStream("input.txt"))
+    val br = System.`in`.bufferedReader(Charsets.UTF_8)
+    val t = br.readLine().toInt()
+
+    for (testCase in 1 .. t) {
+        val inputs = br.readLine().split(" ").map { it.toInt()}
+
+        val result = solution(inputs[0])
+        println("#$testCase $result")
+    }
+}
+
+fun solution(input: Int): Int {
+    // TODO: implementation
+
+    return 0
 }
