@@ -1,7 +1,7 @@
 package baekjoon.number
 
 fun main() {
-    val inputList = readln().split(" ").map { it.toInt() }
+    val inputList = readln().trim().split(" ").map { it.toInt() }
 
     val n = inputList[0]
     val k = inputList[1]
