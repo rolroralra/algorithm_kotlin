@@ -1,31 +1,5 @@
-## Template Code
-```kotlin
-import string.Main
+package baekjoon.heap
 
-fun main() {
-//  System.setIn(Main::class.java.getResourceAsStream("input.txt"))
-    val br = System.`in`.bufferedReader(Charsets.UTF_8)
-    val t = br.readLine().toInt()
-
-    for (testCase in 1 .. t) {
-        val n = br.readLine().toInt()
-
-        val inputs = br.readLine().split(" ").map { it.toInt()}
-
-        val result = solution(inputs[0])
-        println("#$testCase $result")
-    }
-}
-
-fun solution(input: Int): Int {
-    // TODO: implementation
-
-    return 0
-}
-```
-
-## Heap (Priority Queue)
-```kotlin
 open class Heap<T: Comparable<T>>(list: List<T> = emptyList(), comparator: Comparator<T> = Comparator.naturalOrder()) {
     private val dataList: MutableList<T>
     private val comparator: Comparator<T>
@@ -110,4 +84,3 @@ open class Heap<T: Comparable<T>>(list: List<T> = emptyList(), comparator: Compa
         dataList[leftIndex] = dataList[rightIndex].also { dataList[rightIndex] = dataList[leftIndex] }
     }
 }
-```
