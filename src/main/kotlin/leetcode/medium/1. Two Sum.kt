@@ -11,17 +11,17 @@ fun main() {
 class `1` {
 
     fun twoSum(nums: IntArray, target: Int): IntArray {
-        val indexMap = HashMap<Int, Int>()
+        val trackingNumberToIndexMap = HashMap<Int, Int>()
 
-        for (i in nums.indices) {
-            val remainder = target - nums[i]
+        for (index in nums.indices) {
+            val targetRemain = target - nums[index]
 
-            if (indexMap.contains(remainder)) {
-                val secondIndex = indexMap[remainder]!!
-                return intArrayOf(i, secondIndex).sortedArray()
+            if (trackingNumberToIndexMap.contains(targetRemain)) {
+                val secondIndex = trackingNumberToIndexMap[targetRemain]!!
+                return intArrayOf(index, secondIndex).sortedArray()
             }
 
-            indexMap[nums[i]] = i
+            trackingNumberToIndexMap[nums[index]] = index
         }
 
         return intArrayOf()
