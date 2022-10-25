@@ -8,6 +8,7 @@ fun main() {
 }
 
 class Solution {
+    // Two Pointer Algorithm
     fun maxArea(height: Array<Int>): Int {
         val pointers: Array<Int> = arrayOf(0, height.size - 1)
 

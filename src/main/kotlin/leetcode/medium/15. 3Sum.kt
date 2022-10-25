@@ -27,6 +27,7 @@ class `15` {
         return result
     }
 
+    // Two Pointer Algorithm
     private fun twoSum(nums: IntArray, sum: Int = 0, startIndex: Int = 0, endIndex: Int = nums.size): List<MutableList<Int>> {
         val result = mutableListOf<MutableList<Int>>()
 

@@ -3,52 +3,50 @@ package leetcode.medium
 import java.util.*
 
 fun main() {
-    println(`1`().twoSum(intArrayOf(2,7,11,15), 9).joinToString(" "))
-    println(`1`().twoSum(intArrayOf(3,2,4), 6).joinToString(" "))
-    println(`1`().twoSum(intArrayOf(3, 3), 6).joinToString(" "))
+    println(twoSum(intArrayOf(2,7,11,15), 9).joinToString(" "))
+    println(twoSum(intArrayOf(3,2,4), 6).joinToString(" "))
+    println(twoSum(intArrayOf(3, 3), 6).joinToString(" "))
 }
 
-class `1` {
+fun twoSum(nums: IntArray, target: Int): IntArray {
+    val trackingNumberToIndexMap = HashMap<Int, Int>()
 
-    fun twoSum(nums: IntArray, target: Int): IntArray {
-        val trackingNumberToIndexMap = HashMap<Int, Int>()
+    for (index in nums.indices) {
+        val targetRemain = target - nums[index]
 
-        for (index in nums.indices) {
-            val targetRemain = target - nums[index]
-
-            if (trackingNumberToIndexMap.contains(targetRemain)) {
-                val secondIndex = trackingNumberToIndexMap[targetRemain]!!
-                return intArrayOf(index, secondIndex).sortedArray()
-            }
-
-            trackingNumberToIndexMap[nums[index]] = index
+        if (trackingNumberToIndexMap.contains(targetRemain)) {
+            val secondIndex = trackingNumberToIndexMap[targetRemain]!!
+            return intArrayOf(index, secondIndex).sortedArray()
         }
 
-        return intArrayOf()
+        trackingNumberToIndexMap[nums[index]] = index
     }
 
-    fun twoSum2(nums: IntArray, target: Int): IntArray {
-        val cloneNums = nums.clone()
-        cloneNums.sort()
+    return intArrayOf()
+}
 
-        var leftIndex = 0
-        var rightIndex = cloneNums.size - 1
+// Two Pointer Algorithm
+fun twoSum2(nums: IntArray, target: Int): IntArray {
+    val cloneNums = nums.clone()
+    cloneNums.sort()
 
-        while (leftIndex < rightIndex) {
-            val sum = cloneNums[leftIndex] + cloneNums[rightIndex]
-            if (sum == target) {
-                break
-            } else if (sum < target) {
-                do {
-                    leftIndex++
-                } while (leftIndex < rightIndex && cloneNums[leftIndex] == cloneNums[leftIndex - 1])
-            } else {
-                do {
-                    rightIndex--
-                } while (leftIndex < rightIndex && cloneNums[rightIndex] == cloneNums[rightIndex + 1])
-            }
+    var leftIndex = 0
+    var rightIndex = cloneNums.size - 1
+
+    while (leftIndex < rightIndex) {
+        val sum = cloneNums[leftIndex] + cloneNums[rightIndex]
+        if (sum == target) {
+            break
+        } else if (sum < target) {
+            do {
+                leftIndex++
+            } while (leftIndex < rightIndex && cloneNums[leftIndex] == cloneNums[leftIndex - 1])
+        } else {
+            do {
+                rightIndex--
+            } while (leftIndex < rightIndex && cloneNums[rightIndex] == cloneNums[rightIndex + 1])
         }
-
-        return intArrayOf(nums.indexOf(cloneNums[leftIndex]), nums.lastIndexOf(cloneNums[rightIndex]))
     }
+
+    return intArrayOf(nums.indexOf(cloneNums[leftIndex]), nums.lastIndexOf(cloneNums[rightIndex]))
 }
