@@ -40,7 +40,7 @@ private fun twoSumClosest(nums: IntArray, target: Int, startIndex: Int = 0, endI
     var result = Integer.MAX_VALUE
     while (leftIndex < rightIndex) {
         val sum = nums[leftIndex] + nums[rightIndex]
-        val gap = Math.abs(sum - target)
+        val gap = abs(sum - target)
 
         if (gap == 0) {
             return sum
