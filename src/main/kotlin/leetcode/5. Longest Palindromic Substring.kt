@@ -1,4 +1,4 @@
-package leetcode.medium
+package leetcode
 
 fun main() {
     println(longestPalindrome("babad"))

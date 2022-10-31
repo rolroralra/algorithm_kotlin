@@ -1,4 +1,4 @@
-package leetcode.medium
+package leetcode
 
 fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
     val headListNode = ListNode(-1)

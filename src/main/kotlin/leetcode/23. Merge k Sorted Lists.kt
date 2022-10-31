@@ -1,4 +1,4 @@
-package leetcode.medium
+package leetcode
 
 fun mergeKLists(lists: Array<ListNode?>): ListNode? {
     when (lists.size) {

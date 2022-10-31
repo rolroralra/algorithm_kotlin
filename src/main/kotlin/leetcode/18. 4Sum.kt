@@ -1,4 +1,4 @@
-package leetcode.medium
+package leetcode
 
 fun main() {
     println(fourSum(intArrayOf(1, 0, -1, 0, -2, 2), 0))

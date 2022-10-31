@@ -1,4 +1,4 @@
-package leetcode.medium
+package leetcode
 
 fun swapPairs(head: ListNode?): ListNode? {
     if (head?.next == null) {
