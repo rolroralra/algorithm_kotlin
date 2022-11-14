@@ -13,6 +13,7 @@ fun findSubstring(s: String, words: Array<String>): List<Int> {
     val totalLength = wordLength * wordCount
 
     val answer = mutableListOf<Int>()
+
     for (i in 0 .. s.length - totalLength) {
         val countMap = (i until i + totalLength step wordLength)
             .map { s.slice(it until it + wordLength) }
