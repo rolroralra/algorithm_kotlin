@@ -8,5 +8,45 @@ fun main() {
 }
 
 fun searchRange(nums: IntArray, target: Int): IntArray {
-    return intArrayOf(nums.indexOfFirst { it == target }, nums.lastIndexOf(target))
+    if (target !in nums) {
+        return intArrayOf(-1, -1)
+    }
+
+    return intArrayOf(lowerBound(nums, target), upperBound(nums, target))
+}
+
+fun lowerBound(nums: IntArray, target: Int): Int {
+    var start = 0
+    var end = nums.lastIndex
+
+    var lowerBound = nums.size
+    while (start <= end) {
+        val mid = (start + end) / 2
+
+        if (nums[mid] >= target) {
+            end = mid - 1
+            lowerBound = mid
+        } else {
+            start = mid + 1
+        }
+    }
+    return lowerBound
+}
+
+fun upperBound(nums: IntArray, target: Int): Int {
+    var start = 0
+    var end = nums.lastIndex
+
+    var upperBound = -1
+    while (start <= end) {
+        val mid = (start + end) / 2
+
+        if (nums[mid] > target) {
+            end = mid - 1
+        } else {
+            start = mid + 1
+            upperBound = mid
+        }
+    }
+    return upperBound
 }
