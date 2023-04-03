@@ -11,7 +11,7 @@ fun main() {
 }
 
 fun deleteDuplicates(head: ListNode?): ListNode? {
-    if (head == null) {
+    if (head?.next == null) {
         return head
     }
 
