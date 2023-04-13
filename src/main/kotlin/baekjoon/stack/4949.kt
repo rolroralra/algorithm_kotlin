@@ -6,7 +6,7 @@ fun main() {
     val br = System.`in`.bufferedReader()
 
     do {
-        val input = br.readLine().trim().dropLast(1)
+        val input = br.readLine().dropLast(1)
 
         if (input.isEmpty()) {
             break
