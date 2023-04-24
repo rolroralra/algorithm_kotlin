@@ -30,19 +30,19 @@ open class Heap<T: Comparable<T>>(list: List<T> = emptyList(), comparator: Compa
 
     open fun peek(): T = dataList.first()
 
-    fun heapifyTopDown() {
+    private fun heapifyTopDown() {
         for (i in 1 until dataList.size) {
             siftUp(i)
         }
     }
 
-    fun heapifyBottomUp() {
+    private fun heapifyBottomUp() {
         for (i in (dataList.size - 2) / 2 downTo 0) {
             siftDown(i)
         }
     }
 
-    fun siftDown(index: Int) {
+    private fun siftDown(index: Int) {
         var parentIndex = index
         var leftChildIndex = parentIndex * 2 + 1
         var rightChildIndex = leftChildIndex + 1
@@ -68,7 +68,7 @@ open class Heap<T: Comparable<T>>(list: List<T> = emptyList(), comparator: Compa
         }
     }
 
-    fun siftUp(index: Int) {
+    private fun siftUp(index: Int) {
         var currIndex = index
         while (currIndex > 0) {
             val parentIndex = (currIndex - 1) / 2
@@ -80,7 +80,7 @@ open class Heap<T: Comparable<T>>(list: List<T> = emptyList(), comparator: Compa
         }
     }
 
-    fun swap(leftIndex: Int, rightIndex: Int) {
+    private fun swap(leftIndex: Int, rightIndex: Int) {
         dataList[leftIndex] = dataList[rightIndex].also { dataList[rightIndex] = dataList[leftIndex] }
     }
 }

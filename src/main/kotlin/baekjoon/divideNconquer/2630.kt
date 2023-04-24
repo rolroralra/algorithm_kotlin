@@ -10,7 +10,7 @@ fun main() {
     println(b)
 }
 
-fun divideAndConquer(x: Int, y: Int, n: Int, graph: List<List<Int>>) : Pair<Int, Int>{
+private fun divideAndConquer(x: Int, y: Int, n: Int, graph: List<List<Int>>) : Pair<Int, Int>{
     if (n == 1) {
         return if (graph[x][y] == 0) Pair(1, 0) else Pair(0, 1)
     }
