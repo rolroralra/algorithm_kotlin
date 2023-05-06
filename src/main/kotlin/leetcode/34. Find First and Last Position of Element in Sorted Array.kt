@@ -23,7 +23,7 @@ fun searchRange(nums: IntArray, target: Int): IntArray {
     return answer
 }
 
-fun binarySearch(nums: IntArray, target: Int, start: Int = 0, end: Int = nums.lastIndex, answer: IntArray) {
+private fun binarySearch(nums: IntArray, target: Int, start: Int = 0, end: Int = nums.lastIndex, answer: IntArray) {
     if (start > end) {
         return
     }
@@ -42,7 +42,7 @@ fun binarySearch(nums: IntArray, target: Int, start: Int = 0, end: Int = nums.la
     }
 }
 
-fun lowerBound(nums: IntArray, target: Int): Int {
+private fun lowerBound(nums: IntArray, target: Int): Int {
     var start = 0
     var end = nums.lastIndex
 
@@ -63,7 +63,7 @@ fun lowerBound(nums: IntArray, target: Int): Int {
     return lowerBound
 }
 
-fun upperBound(nums: IntArray, target: Int): Int {
+private fun upperBound(nums: IntArray, target: Int): Int {
     var start = 0
     var end = nums.lastIndex
 

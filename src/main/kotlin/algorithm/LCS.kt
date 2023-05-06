@@ -7,7 +7,7 @@ fun main() {
 /**
  * Longest Common Subsequence
  */
-private fun lcs(input1: String, input2: String): String {
+fun lcs(input1: String, input2: String): String {
     val dp = List(input1.length) { MutableList(input2.length) { 0 } }
 
     for (i in input1.indices) {

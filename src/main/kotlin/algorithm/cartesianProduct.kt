@@ -10,7 +10,7 @@ fun main() {
     println(list.cartesianProduct().containsAll(list.cartesianProduct2()))  // true
 }
 
-private fun <T> Collection<Iterable<T>>.cartesianProduct(): List<List<T>> =
+fun <T> Collection<Iterable<T>>.cartesianProduct(): List<List<T>> =
     if (isEmpty()) emptyList()
     else drop(1)
         .fold(first().map(::listOf)) { acc, iterable ->
@@ -19,7 +19,7 @@ private fun <T> Collection<Iterable<T>>.cartesianProduct(): List<List<T>> =
             }
         }
 
-private fun <T> Collection<Iterable<T>>.cartesianProduct2(): List<List<T>> {
+fun <T> Collection<Iterable<T>>.cartesianProduct2(): List<List<T>> {
     if (isEmpty()) {
         return emptyList()
     }
