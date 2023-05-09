@@ -10,7 +10,7 @@ fun main() {
     println(a.pow(b).toMatrixString())
 }
 
-fun List<List<Int>>.multiply(other: List<List<Int>>): List<List<Int>> {
+private fun List<List<Int>>.multiply(other: List<List<Int>>): List<List<Int>> {
     val result = List(size) { MutableList(other[0].size) { 0 } }
 
     (indices).forEach { i ->
@@ -24,7 +24,7 @@ fun List<List<Int>>.multiply(other: List<List<Int>>): List<List<Int>> {
     return result
 }
 
-fun List<List<Int>>.pow(n: Long): List<List<Int>> {
+private fun List<List<Int>>.pow(n: Long): List<List<Int>> {
     if (n == 1L) {
         return this
     }
@@ -38,7 +38,7 @@ fun List<List<Int>>.pow(n: Long): List<List<Int>> {
     }
 }
 
-fun List<List<Int>>.toMatrixString(): String {
+private fun List<List<Int>>.toMatrixString(): String {
     return joinToString("\n") {
         it.map { v -> v % 1000 }.joinToString(" ")
     }
