@@ -17,7 +17,8 @@ fun <T:Comparable<T>> List<T>.isSorted(): Boolean {
 }
 
 object SortingAlgorithm {
-    fun <T:Comparable<T>> selectionSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size, comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
+    fun <T:Comparable<T>> selectionSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                        comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
         val result = list.subList(startIndexInclude, endIndexExclude).toMutableList()
         for (i in 0 until list.lastIndex) {
             var minIndex = i
@@ -37,7 +38,8 @@ object SortingAlgorithm {
         return result
     }
 
-    fun <T:Comparable<T>> insertionSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size, comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
+    fun <T:Comparable<T>> insertionSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                        comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
         val result = list.subList(startIndexInclude, endIndexExclude).toMutableList()
         for (i in 1..list.lastIndex) {
             for (j in i - 1 downTo 0) {
@@ -56,7 +58,8 @@ object SortingAlgorithm {
         return result
     }
 
-    fun <T:Comparable<T>> bubbleSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size, comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
+    fun <T:Comparable<T>> bubbleSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                     comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
         val result = list.subList(startIndexInclude, endIndexExclude).toMutableList()
         for (i in 0 until list.lastIndex) {
             var isSwapped = false
@@ -79,7 +82,8 @@ object SortingAlgorithm {
         return result
     }
 
-    fun <T:Comparable<T>> mergeSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size, comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
+    fun <T:Comparable<T>> mergeSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                    comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
         val result = list.toMutableList()
 
         mergeSort(result, startIndexInclude, endIndexExclude, comparator)
@@ -91,8 +95,21 @@ object SortingAlgorithm {
         return result
     }
 
+    fun <T:Comparable<T>> quickSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                    comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
+        val result = list.toMutableList()
 
-    private fun <T:Comparable<T>> mergeSort(list: MutableList<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size, comparator: Comparator<T> = Comparator.naturalOrder()) {
+        quickSort(result, startIndexInclude, endIndexExclude, comparator)
+
+        if (result.isSorted().not()) {
+            throw IllegalStateException("Failed to sort. This is wrong algorithm.")
+        }
+
+        return result
+    }
+
+    private fun <T:Comparable<T>> mergeSort(list: MutableList<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                            comparator: Comparator<T> = Comparator.naturalOrder()) {
         if (startIndexInclude >= endIndexExclude - 1) {
             return
         }
@@ -130,20 +147,8 @@ object SortingAlgorithm {
         }
     }
 
-    fun <T:Comparable<T>> quickSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size, comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
-        val result = list.toMutableList()
-
-        quickSort(result, startIndexInclude, endIndexExclude, comparator)
-
-        if (result.isSorted().not()) {
-            throw IllegalStateException("Failed to sort. This is wrong algorithm.")
-        }
-
-        return result
-    }
-
-
-    private fun <T:Comparable<T>> quickSort(list: MutableList<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size, comparator: Comparator<T> = Comparator.naturalOrder()) {
+    private fun <T:Comparable<T>> quickSort(list: MutableList<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                            comparator: Comparator<T> = Comparator.naturalOrder()) {
         if (startIndexInclude >= endIndexExclude - 1) {
             return
         }
