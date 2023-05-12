@@ -3,13 +3,37 @@ package algorithm
 import java.util.Comparator
 
 fun main() {
-    val inputList = (1..1000).shuffled()
+    val n = 10_000
+    val inputList = (1..n).shuffled()
 
-    println(SortingAlgorithm.selectionSort(inputList))
-    println(SortingAlgorithm.insertionSort(inputList))
-    println(SortingAlgorithm.bubbleSort(inputList))
-    println(SortingAlgorithm.mergeSort(inputList))
-    println(SortingAlgorithm.quickSort(inputList))
+    val timeMap = mutableMapOf<String, Long>()
+    var prevTimeStamp = System.currentTimeMillis()
+
+    if (n <= 30_000) {
+        SortingAlgorithm.selectionSort(inputList)
+        prevTimeStamp = addUsedTime(timeMap, prevTimeStamp, "selection sort")
+
+        SortingAlgorithm.insertionSort(inputList)
+        prevTimeStamp = addUsedTime(timeMap, prevTimeStamp, "insertion sort")
+
+        SortingAlgorithm.bubbleSort(inputList)
+        prevTimeStamp = addUsedTime(timeMap, prevTimeStamp, "bubble sort")
+    }
+
+    SortingAlgorithm.mergeSort(inputList)
+    prevTimeStamp = addUsedTime(timeMap, prevTimeStamp, "merge sort")
+
+    SortingAlgorithm.quickSort(inputList)
+    addUsedTime(timeMap, prevTimeStamp, "quick sort")
+
+    timeMap.forEach { println("${it.key} : ${it.value} ms")}
+}
+
+private fun addUsedTime(timeList: MutableMap<String, Long>, prevTimeStamp: Long, algorithm: String): Long {
+    val currTimeStamp = System.currentTimeMillis()
+    timeList[algorithm] = currTimeStamp - prevTimeStamp
+
+    return currTimeStamp
 }
 
 fun <T:Comparable<T>> List<T>.isSorted(): Boolean {
