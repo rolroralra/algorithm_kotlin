@@ -24,13 +24,13 @@ fun solution(input: Int): Int {
 }
 ```
 ## Lower Bound, Upper Bound
-[code example](./src/main/kotlin/algorithms/lowerBoundUpperBound.kt)
+[code example](./src/main/kotlin/algorithm/lowerBoundUpperBound.kt)
 
 ## Heap (Priority Queue)
-[code example](./src/main/kotlin/algorithms/Heap.kt)
+[code example](./src/main/kotlin/algorithm/Heap.kt)
 
 ## Cartesian Product
-[code example](./src/main/kotlin/algorithms/cartesianProduct.kt)
+[code example](./src/main/kotlin/algorithm/cartesianProduct.kt)
 <details>
     <summary>Code Example</summary>
 
