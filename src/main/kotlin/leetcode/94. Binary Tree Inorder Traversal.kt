@@ -1,14 +1,11 @@
 package leetcode
 
-fun main() {
-
-}
-
-private class TreeNode(var `val`: Int) {
+class TreeNode(var `val`: Int) {
     var left: TreeNode? = null
     var right: TreeNode? = null
 }
 
+@Suppress("UNUSED")
 private fun inorderTraversal(root: TreeNode?): List<Int> {
     val result = mutableListOf<Int>()
 
