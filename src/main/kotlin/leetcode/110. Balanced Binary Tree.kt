@@ -1,19 +1,23 @@
 package leetcode
 
-@Suppress("UNUSED")
-private fun sortedArrayToBST(nums: IntArray): TreeNode? {
-    return sortedArrayToBST(0, nums.size, nums)
-}
+import kotlin.math.abs
+import kotlin.math.max
 
-private fun sortedArrayToBST(startIndex: Int, endIndexExclusive: Int, nums: IntArray): TreeNode? {
-    if (startIndex == endIndexExclusive) {
-        return null
+@Suppress("UNUSED")
+private fun isBalanced(root: TreeNode?): Boolean {
+    if (root == null) {
+        return true
     }
 
-    val rootIndex = (startIndex + endIndexExclusive) / 2
-    val result = TreeNode(nums[rootIndex])
-    result.left = sortedArrayToBST(startIndex, rootIndex, nums)
-    result.right = sortedArrayToBST(rootIndex + 1, endIndexExclusive, nums)
+    return isBalanced(root.left)
+            && isBalanced(root.right)
+            && abs(maxDepth(root.left) - maxDepth(root.right)) <= 1
+}
 
-    return result
+private fun maxDepth(root: TreeNode?): Int {
+    if (root == null) {
+        return 0
+    }
+
+    return max(maxDepth(root.left), maxDepth(root.right)) + 1
 }
