@@ -66,5 +66,7 @@ fun <T> Collection<Iterable<T>>.cartesianProduct2(): List<List<T>> {
 
 
 ## LCS (Longest Common Subsequence)
-[code example](./src/main/kotlin/algorithm/dp/LCS.kt)
+[code example](./src/main/kotlin/algorithm/LCS.kt)
 
+## Segment Tree
+[code example](./src/main/kotlin/algorithm/segmentTree.kt)
