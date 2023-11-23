@@ -3,6 +3,31 @@ package algorithm
 import java.util.*
 import java.util.function.BinaryOperator
 
+fun main() {
+    SegmentTree(
+        arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9),
+        Int::plus
+    ).apply {
+        check(query(0, 8) == 45)
+        check(query(0, 4) == 15)
+        check(query(4, 8) == 35)
+
+        println(query(0, 8))    // 45
+        println(query(0, 4))    // 15
+        println(query(4, 8))    // 35
+
+        update(0, 10)
+
+        check(query(0, 8) == 54)
+        check(query(0, 4) == 24)
+        check(query(4, 8) == 35)
+
+        println(query(0, 8))    // 54
+        println(query(0, 4))    // 24
+        println(query(4, 8))    // 35
+    }
+}
+
 class SegmentTree<T> (
     size: Int,
     accumulator: BinaryOperator<T>
@@ -15,9 +40,7 @@ class SegmentTree<T> (
         } else a ?: b
     }
 
-    constructor(originDataArray: Array<T>, accumulator: BinaryOperator<T>) : this(originDataArray.size, accumulator) {
-        init(originDataArray)
-    }
+    constructor(originDataArray: Array<T>, accumulator: BinaryOperator<T>) : this(originDataArray.toList(), accumulator)
 
     constructor(originDataList: List<T>, accumulator: BinaryOperator<T>) : this(originDataList.size, accumulator) {
         init(originDataList)
@@ -61,11 +84,10 @@ class SegmentTree<T> (
 
     @Throws(Exception::class)
     private fun init(originDataList: List<T>) {
-        if (originDataList.size > this.originDataSize) {
-            throw Exception(
-                ("Input Data size is overflow! (Input Data Size : " + originDataList.size +
-                        ", Current Data Size : " + this.originDataSize).toString() + ")"
-            )
+        require(originDataList.size > this.originDataSize) {
+            "Input Data size is overflow! " +
+                    "Input Data Size : ${originDataList.size}, " +
+                    "Current Data Size : ${this.originDataSize})"
         }
 
         for (indexedValue in originDataList.withIndex()) {
@@ -84,27 +106,33 @@ class SegmentTree<T> (
      */
     private fun updateByValue(index: Int, value: T, node: Int, nodeLeft: Int, nodeRight: Int) {
         // Escaping Condition : index is not in segment [nodeLeft, nodeRight]
-        if (index < nodeLeft || nodeRight < index) {
+        if (index !in nodeLeft..nodeRight) {
             return
         }
+
         if (nodeLeft == nodeRight) {
             segmentTree[node] = value
             return
         }
+
         val nodeMid = nodeLeft + nodeRight shr 1
         val leftNode = (node shl 1) + 1
         val rightNode = leftNode + 1
+
         updateByValue(index, value, leftNode, nodeLeft, nodeMid)
         updateByValue(index, value, rightNode, nodeMid + 1, nodeRight)
 
+        val isLeftValueIsNotNull = segmentTree[leftNode] != null
+        val isRightValueIsNotNull = segmentTree[rightNode] != null
+
         when {
-            segmentTree[leftNode] != null && segmentTree[rightNode] != null -> {
+            isLeftValueIsNotNull.and(isRightValueIsNotNull) -> {
                 segmentTree[node] = accumulator.apply(segmentTree[leftNode], segmentTree[rightNode])
             }
-            segmentTree[leftNode] != null -> {
+            isLeftValueIsNotNull -> {
                 segmentTree[node] = segmentTree[leftNode]
             }
-            segmentTree[rightNode] != null -> {
+            isRightValueIsNotNull -> {
                 segmentTree[node] = segmentTree[rightNode]
             }
         }
@@ -120,12 +148,12 @@ class SegmentTree<T> (
      */
     private fun query(left: Int, right: Int, node: Int, nodeLeft: Int, nodeRight: Int): T? {
         // [left, right] is not in [nodeLeft, nodeRight]
-        if (left > nodeRight || right < nodeLeft) {
+        if ((left..right).none { it in nodeLeft..nodeRight }) {
             return null
         }
 
         // [left ... [nodeLeft ... nodeRight] ... right]
-        if (left <= nodeLeft && nodeRight <= right) {
+        if ((nodeLeft..nodeRight).all { it in left..right }) {
             return this.segmentTree[node]
         }
 
@@ -133,6 +161,7 @@ class SegmentTree<T> (
         val nodeMid = nodeLeft + nodeRight shr 1
         val leftNode = (node shl 1) + 1
         val rightNode = leftNode + 1
+
         val leftResult = query(left, right, leftNode, nodeLeft, nodeMid)
         val rightResult = query(left, right, rightNode, nodeMid + 1, nodeRight)
 
