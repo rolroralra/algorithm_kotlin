@@ -5,7 +5,7 @@ fun main() {
     }
 }
 
-fun solution(input: String) {
+private fun solution(input: String) {
 
     val lowerCaseInput = input.lowercase()
 
