@@ -69,4 +69,4 @@ fun <T> Collection<Iterable<T>>.cartesianProduct2(): List<List<T>> {
 [code example](./src/main/kotlin/algorithm/LCS.kt)
 
 ## Segment Tree
-[code example](./src/main/kotlin/algorithm/segmentTree.kt)
+[code example](./src/main/kotlin/algorithm/SegmentTree.kt)
