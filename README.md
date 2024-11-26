@@ -23,6 +23,18 @@ fun solution(input: Int): Int {
     return 0
 }
 ```
+## Kotlin Memory Usage (MemoryMXBean)
+```kotlin
+fun printMemoryUsage() {
+    val memoryMXBean = ManagementFactory.getMemoryMXBean()
+    val heapMemoryUsage = memoryMXBean.heapMemoryUsage
+    val nonHeapMemoryUsage = memoryMXBean.nonHeapMemoryUsage
+
+    println("Heap Memory Usage: ${heapMemoryUsage.used / (1024 * 1024)} MB")
+    println("Non-Heap Memory Usage: ${nonHeapMemoryUsage.used / (1024 * 1024)} MB")
+}
+```
+
 ## Lower Bound, Upper Bound
 [code example](./src/main/kotlin/algorithm/lowerBoundUpperBound.kt)
 
@@ -70,3 +82,4 @@ fun <T> Collection<Iterable<T>>.cartesianProduct2(): List<List<T>> {
 
 ## Segment Tree
 [code example](./src/main/kotlin/algorithm/SegmentTree.kt)
+
