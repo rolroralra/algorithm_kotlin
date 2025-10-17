@@ -7,11 +7,18 @@
 
 plugins {
     java
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.9.25"
 }
 
 group = "com.example"
 version = "0.1.0"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -26,10 +33,16 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
 }
 
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
+}
+
 // Kotlin 컴파일러 옵션 설정
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "14" // 사용하는 JVM 버전에 맞춰 설정하세요
+        jvmTarget = "21" // 사용하는 JVM 버전에 맞춰 설정하세요
     }
 }
 
