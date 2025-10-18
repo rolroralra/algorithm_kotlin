@@ -223,4 +223,29 @@ fun main() {
     while (heap.isNotEmpty()) {
         println(heap.poll())
     }
+
+    println(getBinaryTreeSize(10))
+    println(getSegmentTreeSizeAndBaseIndex(10))
+}
+
+fun getBinaryTreeSize(n: Int): Int {
+    check(n > 0) { "n must be non-negative" }
+
+    val baseSize = getFullBinarySize(n)
+
+    return 2 * baseSize - 1
+}
+
+fun getFullBinarySize(n: Int): Int {
+    check(n > 0) { "n must be non-negative" }
+
+    return 1 shl (Int.SIZE_BITS - (n - 1).countLeadingZeroBits() - 1)
+}
+
+fun getSegmentTreeSizeAndBaseIndex(n: Int): Pair<Int, Int> {
+    check(n > 0) { "n must be non-negative" }
+
+    val baseSize = getFullBinarySize(n)
+
+    return 2 * baseSize - 1 to baseSize - 1
 }
