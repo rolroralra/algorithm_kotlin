@@ -1,4 +1,4 @@
-package algorithm
+package algorithm.heap
 
 open class Heap<T : Comparable<T>>(
     list: List<T> = emptyList(),

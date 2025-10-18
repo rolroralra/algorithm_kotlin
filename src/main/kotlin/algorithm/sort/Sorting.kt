@@ -1,5 +1,6 @@
-package algorithm
+package algorithm.sort
 
+import algorithm.heap.Heap
 import java.util.Comparator
 
 fun main() {
@@ -24,7 +25,10 @@ fun main() {
     prevTimeStamp = addUsedTime(timeMap, prevTimeStamp, "merge sort")
 
     SortingAlgorithm.quickSort(inputList)
-    addUsedTime(timeMap, prevTimeStamp, "quick sort")
+    prevTimeStamp = addUsedTime(timeMap, prevTimeStamp, "quick sort")
+
+    SortingAlgorithm.heapSort(inputList)
+    prevTimeStamp = addUsedTime(timeMap, prevTimeStamp, "heap sort")
 
     timeMap.forEach { println("${it.key} : ${it.value} ms")}
 }
@@ -55,9 +59,7 @@ object SortingAlgorithm {
             result.swap(i, minIndex)
         }
 
-        if (result.isSorted().not()) {
-            throw IllegalStateException("Failed to sort. This is wrong algorithm.")
-        }
+        checkSortResult(result)
 
         return result
     }
@@ -75,9 +77,7 @@ object SortingAlgorithm {
             }
         }
 
-        if (result.isSorted().not()) {
-            throw IllegalStateException("Failed to sort. This is wrong algorithm.")
-        }
+        checkSortResult(result)
 
         return result
     }
@@ -99,9 +99,7 @@ object SortingAlgorithm {
             }
         }
 
-        if (result.isSorted().not()) {
-            throw IllegalStateException("Failed to sort. This is wrong algorithm.")
-        }
+        checkSortResult(result)
 
         return result
     }
@@ -112,9 +110,7 @@ object SortingAlgorithm {
 
         mergeSort(result, startIndexInclude, endIndexExclude, comparator)
 
-        if (result.isSorted().not()) {
-            throw IllegalStateException("Failed to sort. This is wrong algorithm.")
-        }
+        checkSortResult(result)
 
         return result
     }
@@ -125,9 +121,22 @@ object SortingAlgorithm {
 
         quickSort(result, startIndexInclude, endIndexExclude, comparator)
 
-        if (result.isSorted().not()) {
-            throw IllegalStateException("Failed to sort. This is wrong algorithm.")
+        checkSortResult(result)
+
+        return result
+    }
+
+    fun <T:Comparable<T>> heapSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                    comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
+        val result = mutableListOf<T>()
+
+        val heap = Heap(list.subList(startIndexInclude, endIndexExclude), comparator)
+
+        while (heap.isNotEmpty()) {
+            result.add(heap.poll())
         }
+
+        checkSortResult(result)
 
         return result
     }
@@ -196,5 +205,9 @@ object SortingAlgorithm {
         }
 
         this[index1] = this[index2].also { this[index2] = this[index1] }
+    }
+
+    private fun <T:Comparable<T>> checkSortResult(result: List<T>) {
+        check(result.isSorted()) { "Failed to sort. This is wrong algorithm." }
     }
 }

@@ -1,5 +1,7 @@
 package baekjoon.heap
 
+import algorithm.heap.Heap
+
 fun main() {
     val n = readln().trim().toInt()
 

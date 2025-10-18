@@ -1,4 +1,3 @@
-
 fun main() {
 //     System.setIn(Main::class.java.getResourceAsStream("input.txt"))
     val br = System.`in`.bufferedReader(Charsets.UTF_8)
