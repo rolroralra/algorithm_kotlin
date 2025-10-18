@@ -34,6 +34,8 @@ open class Heap<T : Comparable<T>>(
 
     open fun isNotEmpty(): Boolean = !isEmpty()
 
+    open fun size(): Int = dataList.size
+
     open fun add(value: T) {
         dataList.add(value)
         siftUp(lastIndex())
@@ -93,6 +95,20 @@ open class Heap<T : Comparable<T>>(
         return index in dataList.indices
     }
 
+    private fun siftDown(index: Int) {
+        when (style) {
+            HeapSiftStyle.LOOP -> siftDownByLoop(index)
+            HeapSiftStyle.RECURSIVE -> siftDownByRecursive(index)
+        }
+    }
+
+    private fun siftUp(index: Int) {
+        when (style) {
+            HeapSiftStyle.LOOP -> siftUpByLoop(index)
+            HeapSiftStyle.RECURSIVE -> siftUpByRecursive(index)
+        }
+    }
+
     private fun siftDownByLoop(index: Int) {
         var parentIndex = index
         var leftChildIndex = leftChildIndex(parentIndex)
@@ -120,20 +136,6 @@ open class Heap<T : Comparable<T>>(
             parentIndex = candidateIndex
             leftChildIndex = leftChildIndex(parentIndex)
             rightChildIndex = rightChildIndex(parentIndex)
-        }
-    }
-
-    private fun siftDown(index: Int) {
-        when (style) {
-            HeapSiftStyle.LOOP -> siftDownByLoop(index)
-            HeapSiftStyle.RECURSIVE -> siftDownByRecursive(index)
-        }
-    }
-
-    private fun siftUp(index: Int) {
-        when (style) {
-            HeapSiftStyle.LOOP -> siftUpByLoop(index)
-            HeapSiftStyle.RECURSIVE -> siftUpByRecursive(index)
         }
     }
 
@@ -192,6 +194,30 @@ open class Heap<T : Comparable<T>>(
         dataList[leftIndex] =
             dataList[rightIndex].also { dataList[rightIndex] = dataList[leftIndex] }
     }
+
+
+}
+
+fun getBinaryTreeSize(n: Int): Int {
+    check(n > 0) { "n must be non-negative" }
+
+    val baseSize = getFullBinarySize(n)
+
+    return 2 * baseSize - 1
+}
+
+fun getFullBinarySize(n: Int): Int {
+    check(n > 0) { "n must be non-negative" }
+
+    return 1 shl (Int.SIZE_BITS - (n - 1).countLeadingZeroBits() - 1)
+}
+
+fun getSegmentTreeSizeAndBaseIndex(n: Int): Pair<Int, Int> {
+    check(n > 0) { "n must be non-negative" }
+
+    val baseSize = getFullBinarySize(n)
+
+    return 2 * baseSize - 1 to baseSize - 1
 }
 
 fun main() {
@@ -226,26 +252,38 @@ fun main() {
 
     println(getBinaryTreeSize(10))
     println(getSegmentTreeSizeAndBaseIndex(10))
+
+    println()
+    testLongestProcessingTimeFirst()
 }
 
-fun getBinaryTreeSize(n: Int): Int {
-    check(n > 0) { "n must be non-negative" }
+private fun testLongestProcessingTimeFirst() {
+    data class Machine(val id: Int, var availableTime: Int = 0) : Comparable<Machine> {
+        override fun compareTo(other: Machine): Int {
+            return if (availableTime == other.availableTime) id.compareTo(other.id)
+            else availableTime.compareTo(other.availableTime)
+        }
 
-    val baseSize = getFullBinarySize(n)
+        fun process(time: Int) {
+            availableTime += time
+        }
+    }
 
-    return 2 * baseSize - 1
-}
+    val heap = Heap(listOf(Machine(1), Machine(2), Machine(3)))
 
-fun getFullBinarySize(n: Int): Int {
-    check(n > 0) { "n must be non-negative" }
+    val jobTimes = listOf(8,7,6,5,3,2,1).sorted().reversed()
 
-    return 1 shl (Int.SIZE_BITS - (n - 1).countLeadingZeroBits() - 1)
-}
 
-fun getSegmentTreeSizeAndBaseIndex(n: Int): Pair<Int, Int> {
-    check(n > 0) { "n must be non-negative" }
+    for ((i, jobTime) in jobTimes.withIndex()) {
+        val availableMachine = heap.poll()
 
-    val baseSize = getFullBinarySize(n)
+        val startTime = availableMachine.availableTime
+        val endTime = availableMachine.availableTime + jobTime - 1
 
-    return 2 * baseSize - 1 to baseSize - 1
+        println("JOB ${i}을 시간=${startTime}부터 시간=${endTime}까지 기계 ${availableMachine.id}번에 할당한다.")
+
+        availableMachine.process(jobTime)
+
+        heap.add(availableMachine)
+    }
 }

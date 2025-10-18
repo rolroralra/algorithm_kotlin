@@ -8,6 +8,11 @@ open class BinaryTreeNode<T>(var`val`: T, var left: BinaryTreeNode<T>? = null, v
         DIRECTORY,
         TREE
     }
+
+    open fun isLeafNode(): Boolean {
+        return left == null && right == null
+    }
+
     override fun getNodeCount(): Int {
         return getNodeCount(this)
     }
@@ -34,8 +39,6 @@ open class BinaryTreeNode<T>(var`val`: T, var left: BinaryTreeNode<T>? = null, v
             PrintMode.TREE -> buildTreeLines(this).forEach { println(it) }
         }
     }
-
-
 
     companion object {
         fun <T> getNodeCount(node: BinaryTreeNode<T>?): Int {
