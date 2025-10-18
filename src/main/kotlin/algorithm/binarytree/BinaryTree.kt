@@ -7,5 +7,7 @@ interface BinaryTree {
 
     fun getHeight(): Int
 
+    fun isBalanced(): Boolean
+
     fun printTree()
 }

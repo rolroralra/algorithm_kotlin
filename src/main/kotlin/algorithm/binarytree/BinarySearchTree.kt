@@ -1,8 +1,8 @@
 package algorithm.binarytree
 
 open class BinarySearchTree<T>(var root: BinaryTreeNode<T>? = null, val comparator: Comparator<T>) : BinaryTree {
-    open fun binarySearch(value: T): BinaryTreeNode<T>? {
-        return root?.binarySearch(value, comparator)
+    open fun search(value: T): BinaryTreeNode<T>? {
+        return root?.search(value, comparator)
     }
 
     open fun addValue(value: T) {
@@ -95,12 +95,16 @@ open class BinarySearchTree<T>(var root: BinaryTreeNode<T>? = null, val comparat
         return root?.getHeight() ?: 0
     }
 
+    override fun isBalanced(): Boolean {
+        return root?.isBalanced() ?: true
+    }
+
     override fun printTree() {
         root?.printTree()
     }
 }
 
-fun <T> BinaryTreeNode<T>.binarySearch(value: T, comparator: Comparator<T>): BinaryTreeNode<T>? {
+fun <T> BinaryTreeNode<T>.search(value: T, comparator: Comparator<T>): BinaryTreeNode<T>? {
     return binarySearch(value, this, comparator)
 }
 
@@ -118,6 +122,16 @@ fun <T> binarySearch(value: T, node: BinaryTreeNode<T>?, comparator: Comparator<
     }
 }
 
+data class Word(val word: String, val meaning: String = "") : Comparable<Word> {
+    override fun compareTo(other: Word): Int {
+        return word.compareTo(other.word)
+    }
+
+    override fun toString(): String {
+        return word.take(1)
+    }
+}
+
 fun main() {
     val bst = BinarySearchTree<Int>(comparator = Comparator.naturalOrder())
 
@@ -131,19 +145,39 @@ fun main() {
     bst.addValue(4)
     bst.print()
 
-    val result = bst.binarySearch(5)
+    val result = bst.search(5)
     result?.printTree() ?: println("There is no node")
 
-    bst.binarySearch(100)?.printTree() ?: println("There is no node")
+    bst.search(100)?.printTree() ?: println("There is no node")
+    check(bst.isBalanced())
 
     bst.removeValue(3)
     bst.printTree()
+    check(bst.isBalanced())
 
     bst.removeValue(5)
     bst.printTree()
+    check(bst.isBalanced())
 
     bst.removeValue(1)
     bst.printTree()
+    check(bst.isBalanced())
+
     bst.removeValue(6)
     bst.printTree()
+    check(bst.isBalanced())
+
+    println()
+    testBinarySearchTree()
+}
+
+private fun testBinarySearchTree() {
+    val bst = BinarySearchTree<Word>(comparator = Comparator.naturalOrder())
+    bst.addValue(Word("tree", "나무"))
+    bst.addValue(Word("student", "학생"))
+    bst.addValue(Word("information", "정보"))
+
+    println(bst.search(Word("student"))?.`val` ?: "NONE")
+
+    bst.print()
 }

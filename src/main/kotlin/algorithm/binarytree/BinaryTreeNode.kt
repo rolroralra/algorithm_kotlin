@@ -1,5 +1,6 @@
 package algorithm.binarytree
 
+import kotlin.math.abs
 import kotlin.math.max
 
 open class BinaryTreeNode<T>(var`val`: T, var left: BinaryTreeNode<T>? = null, var right: BinaryTreeNode<T>? = null) : BinaryTree {
@@ -23,12 +24,18 @@ open class BinaryTreeNode<T>(var`val`: T, var left: BinaryTreeNode<T>? = null, v
         printTree(PrintMode.TREE)
     }
 
+    override fun isBalanced(): Boolean {
+        return isBalanced(this)
+    }
+
     open fun printTree(mode: PrintMode = PrintMode.TREE) {
         when (mode) {
             PrintMode.DIRECTORY -> printTreeInternal(this, "", true)
             PrintMode.TREE -> buildTreeLines(this).forEach { println(it) }
         }
     }
+
+
 
     companion object {
         fun <T> getNodeCount(node: BinaryTreeNode<T>?): Int {
@@ -49,6 +56,15 @@ open class BinaryTreeNode<T>(var`val`: T, var left: BinaryTreeNode<T>? = null, v
             if (node == null) return 0
 
             return 1 + max(getTreeHeight(node.left), getTreeHeight(node.right))
+        }
+
+        fun <T> isBalanced(node: BinaryTreeNode<T>?): Boolean {
+            if (node == null) return true
+
+            val leftSubTreeHeight = getTreeHeight(node.left)
+            val rightSubTreeHeight = getTreeHeight(node.right)
+
+            return abs(leftSubTreeHeight - rightSubTreeHeight) <= 1
         }
 
         private fun <T> printTreeInternal(node: BinaryTreeNode<T>?, prefix: String, isTail: Boolean) {
@@ -173,4 +189,6 @@ fun main() {
     )
 
     sampleTree.printTree()
+
+    check(sampleTree.isBalanced())
 }
