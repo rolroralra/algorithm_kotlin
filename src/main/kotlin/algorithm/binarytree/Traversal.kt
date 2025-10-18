@@ -1,88 +1,51 @@
 package algorithm.binarytree
 
 import java.util.Stack
-import kotlin.math.max
 
-open class TreeNode<T>(var`val`: T, var left: TreeNode<T>? = null, var right: TreeNode<T>? = null) {
-    enum class Mode {
-        LOOP,
-        RECURSIVE,
-    }
+enum class Mode {
+    LOOP,
+    RECURSIVE,
+}
 
-    companion object {
-        fun <T> getNodeCount(node: TreeNode<T>?): Int {
-            if (node == null) return 0
-
-            return 1 + getNodeCount(node.left) + getNodeCount(node.right)
-        }
-
-        fun <T> getLeafNodeCount(node: TreeNode<T>?): Int {
-            if (node == null) return 0
-
-            if (node.left == null && node.right == null) return 1
-
-            return getLeafNodeCount(node.left) + getLeafNodeCount(node.right)
-        }
-
-        fun <T> getTreeHeight(node: TreeNode<T>?): Int {
-            if (node == null) return 0
-
-            return 1 + max(getTreeHeight(node.left), getTreeHeight(node.right))
-        }
-    }
-
-    open fun getNodeCount(): Int {
-        return getNodeCount(this)
-    }
-
-    open fun getLeafNodeCount(): Int {
-        return getLeafNodeCount(this)
-    }
-
-    open fun getHeight(): Int {
-        return getTreeHeight(this)
-    }
-
-    open fun preOrderTraversal(mode: Mode = Mode.RECURSIVE): List<T> {
-        return when (mode) {
-            Mode.RECURSIVE -> preOrderTraversalByRecursive(this)
-            Mode.LOOP -> preOrderTraversalByLoop(this)
-        }
-    }
-
-    open fun postOrderTraversal(mode: Mode = Mode.RECURSIVE): List<T> {
-        return when (mode) {
-            Mode.RECURSIVE -> postOrderTraversalByRecursive(this)
-            Mode.LOOP -> postOrderTraversalByLoop(this)
-        }
-    }
-
-    open fun inOrderTraversal(mode: Mode = Mode.RECURSIVE): List<T> {
-        return when (mode) {
-            Mode.RECURSIVE -> inOrderTraversalByRecursive(this)
-            Mode.LOOP -> inOrderTraversalByLoop(this)
-        }
-    }
-
-    open fun levelOrderTraversal(): List<T> {
-        val result = mutableListOf<T>()
-        val queue = ArrayDeque<TreeNode<T>>()
-
-        queue.add(this)
-
-        while (queue.isNotEmpty()) {
-            val node = queue.removeFirst()
-            result.add(node.`val`)
-
-            node.left?.let { queue.addLast(it) }
-            node.right?.let { queue.addLast(it) }
-        }
-
-        return result
+fun <T> BinaryTreeNode<T>.preOrderTraversal(mode: Mode = Mode.RECURSIVE): List<T> {
+    return when (mode) {
+        Mode.RECURSIVE -> preOrderTraversalByRecursive(this)
+        Mode.LOOP -> preOrderTraversalByLoop(this)
     }
 }
 
-fun <T> preOrderTraversalByRecursive(root: TreeNode<T>?): List<T> {
+fun <T> BinaryTreeNode<T>.postOrderTraversal(mode: Mode = Mode.RECURSIVE): List<T> {
+    return when (mode) {
+        Mode.RECURSIVE -> postOrderTraversalByRecursive(this)
+        Mode.LOOP -> postOrderTraversalByLoop(this)
+    }
+}
+
+fun <T> BinaryTreeNode<T>.inOrderTraversal(mode: Mode = Mode.RECURSIVE): List<T> {
+    return when (mode) {
+        Mode.RECURSIVE -> inOrderTraversalByRecursive(this)
+        Mode.LOOP -> inOrderTraversalByLoop(this)
+    }
+}
+
+fun <T> BinaryTreeNode<T>.levelOrderTraversal(): List<T> {
+    val result = mutableListOf<T>()
+    val queue = ArrayDeque<BinaryTreeNode<T>>()
+
+    queue.add(this)
+
+    while (queue.isNotEmpty()) {
+        val node = queue.removeFirst()
+        result.add(node.`val`)
+
+        node.left?.let { queue.addLast(it) }
+        node.right?.let { queue.addLast(it) }
+    }
+
+    return result
+}
+
+fun <T> preOrderTraversalByRecursive(root: BinaryTreeNode<T>?): List<T> {
     val result = mutableListOf<T>()
 
     preOrderTraversalByRecursiveInternal(root, result)
@@ -90,7 +53,7 @@ fun <T> preOrderTraversalByRecursive(root: TreeNode<T>?): List<T> {
     return result
 }
 
-fun <T> preOrderTraversalByRecursiveInternal(root: TreeNode<T>?, result: MutableList<T>) {
+fun <T> preOrderTraversalByRecursiveInternal(root: BinaryTreeNode<T>?, result: MutableList<T>) {
   if (root == null) return
 
   result.add(root.`val`)
@@ -98,43 +61,11 @@ fun <T> preOrderTraversalByRecursiveInternal(root: TreeNode<T>?, result: Mutable
   preOrderTraversalByRecursiveInternal(root.right, result)
 }
 
-fun <T> inOrderTraversalByRecursive(root: TreeNode<T>?): List<T> {
-    val result = mutableListOf<T>()
-
-    inOrderTraversalByRecursiveInternal(root, result)
-
-    return result
-}
-
-fun <T> inOrderTraversalByRecursiveInternal(root: TreeNode<T>?, result: MutableList<T>) {
-    if (root == null) return
-
-    inOrderTraversalByRecursiveInternal(root.left, result)
-    result.add(root.`val`)
-    inOrderTraversalByRecursiveInternal(root.right, result)
-}
-
-fun <T> postOrderTraversalByRecursive(root: TreeNode<T>?): List<T> {
-    val result = mutableListOf<T>()
-
-    postOrderTraversalByRecursiveInternal(root, result)
-
-    return result
-}
-
-fun <T> postOrderTraversalByRecursiveInternal(root: TreeNode<T>?, result: MutableList<T>) {
-    if (root == null) return
-
-    postOrderTraversalByRecursiveInternal(root.left, result)
-    postOrderTraversalByRecursiveInternal(root.right, result)
-    result.add(root.`val`)
-}
-
-fun <T> preOrderTraversalByLoop(root: TreeNode<T>?): List<T> {
+fun <T> preOrderTraversalByLoop(root: BinaryTreeNode<T>?): List<T> {
     if (root == null) return emptyList()
 
     val result = mutableListOf<T>()
-    val stack = Stack<TreeNode<T>>()
+    val stack = Stack<BinaryTreeNode<T>>()
     stack.push(root)
 
     while (stack.isNotEmpty()) {
@@ -149,9 +80,25 @@ fun <T> preOrderTraversalByLoop(root: TreeNode<T>?): List<T> {
     return result
 }
 
-fun <T> inOrderTraversalByLoop(root: TreeNode<T>?): List<T> {
+fun <T> inOrderTraversalByRecursive(root: BinaryTreeNode<T>?): List<T> {
     val result = mutableListOf<T>()
-    val stack = Stack<TreeNode<T>>()
+
+    inOrderTraversalByRecursiveInternal(root, result)
+
+    return result
+}
+
+fun <T> inOrderTraversalByRecursiveInternal(root: BinaryTreeNode<T>?, result: MutableList<T>) {
+    if (root == null) return
+
+    inOrderTraversalByRecursiveInternal(root.left, result)
+    result.add(root.`val`)
+    inOrderTraversalByRecursiveInternal(root.right, result)
+}
+
+fun <T> inOrderTraversalByLoop(root: BinaryTreeNode<T>?): List<T> {
+    val result = mutableListOf<T>()
+    val stack = Stack<BinaryTreeNode<T>>()
     var current = root
 
     while (current != null || stack.isNotEmpty()) {
@@ -172,11 +119,27 @@ fun <T> inOrderTraversalByLoop(root: TreeNode<T>?): List<T> {
     return result
 }
 
-fun <T> postOrderTraversalByLoop(root: TreeNode<T>?): List<T> {
+fun <T> postOrderTraversalByRecursive(root: BinaryTreeNode<T>?): List<T> {
+    val result = mutableListOf<T>()
+
+    postOrderTraversalByRecursiveInternal(root, result)
+
+    return result
+}
+
+fun <T> postOrderTraversalByRecursiveInternal(root: BinaryTreeNode<T>?, result: MutableList<T>) {
+    if (root == null) return
+
+    postOrderTraversalByRecursiveInternal(root.left, result)
+    postOrderTraversalByRecursiveInternal(root.right, result)
+    result.add(root.`val`)
+}
+
+fun <T> postOrderTraversalByLoop(root: BinaryTreeNode<T>?): List<T> {
     if (root == null) return emptyList()
 
-    val stack1 = Stack<TreeNode<T>>()
-    val stack2 = Stack<TreeNode<T>>()
+    val stack1 = Stack<BinaryTreeNode<T>>()
+    val stack2 = Stack<BinaryTreeNode<T>>()
     stack1.push(root)
 
     while (stack1.isNotEmpty()) {
@@ -203,17 +166,17 @@ fun main() {
     //       5    15
     //      / \   / \
     //     3   7 12  20
-    val sampleTree = TreeNode(
+    val sampleTree = BinaryTreeNode(
         `val` = 10,
-        left = TreeNode(
+        left = BinaryTreeNode(
             `val` = 5,
-            left = TreeNode(`val` = 3),
-            right = TreeNode(`val` = 7)
+            left = BinaryTreeNode(`val` = 3),
+            right = BinaryTreeNode(`val` = 7)
         ),
-        right = TreeNode(
+        right = BinaryTreeNode(
             `val` = 15,
-            left = TreeNode(`val` = 12),
-            right = TreeNode(`val` = 20)
+            left = BinaryTreeNode(`val` = 12),
+            right = BinaryTreeNode(`val` = 20)
         )
     )
 
@@ -236,9 +199,9 @@ fun main() {
     check(actualInOrderTraversal == expectedInOrderTraversal)
     check(actualPostOrderTraversal == expectedPostOrderTraversal)
     check(actualLevelOrderTraversal == expectedLevelOrderTraversal)
-    check(sampleTree.preOrderTraversal(mode = TreeNode.Mode.LOOP) == expectedPreOrderTraversal)
-    check(sampleTree.inOrderTraversal(mode = TreeNode.Mode.LOOP) == expectedInOrderTraversal)
-    check(sampleTree.postOrderTraversal(mode = TreeNode.Mode.LOOP) == expectedPostOrderTraversal)
+    check(sampleTree.preOrderTraversal(mode = Mode.LOOP) == expectedPreOrderTraversal)
+    check(sampleTree.inOrderTraversal(mode = Mode.LOOP) == expectedInOrderTraversal)
+    check(sampleTree.postOrderTraversal(mode = Mode.LOOP) == expectedPostOrderTraversal)
 
     println("Tree Node Count: ${sampleTree.getNodeCount()}")
     println("Tree Leaf Node Count: ${sampleTree.getLeafNodeCount()}")
