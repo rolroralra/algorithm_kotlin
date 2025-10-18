@@ -1,11 +1,46 @@
 package algorithm.binarytree
 
 import java.util.Stack
+import kotlin.math.max
 
 open class TreeNode<T>(var`val`: T, var left: TreeNode<T>? = null, var right: TreeNode<T>? = null) {
     enum class Mode {
         LOOP,
         RECURSIVE,
+    }
+
+    companion object {
+        fun <T> getNodeCount(node: TreeNode<T>?): Int {
+            if (node == null) return 0
+
+            return 1 + getNodeCount(node.left) + getNodeCount(node.right)
+        }
+
+        fun <T> getLeafNodeCount(node: TreeNode<T>?): Int {
+            if (node == null) return 0
+
+            if (node.left == null && node.right == null) return 1
+
+            return getLeafNodeCount(node.left) + getLeafNodeCount(node.right)
+        }
+
+        fun <T> getTreeHeight(node: TreeNode<T>?): Int {
+            if (node == null) return 0
+
+            return 1 + max(getTreeHeight(node.left), getTreeHeight(node.right))
+        }
+    }
+
+    open fun getNodeCount(): Int {
+        return getNodeCount(this)
+    }
+
+    open fun getLeafNodeCount(): Int {
+        return getLeafNodeCount(this)
+    }
+
+    open fun getHeight(): Int {
+        return getTreeHeight(this)
     }
 
     open fun preOrderTraversal(mode: Mode = Mode.RECURSIVE): List<T> {
@@ -27,6 +62,23 @@ open class TreeNode<T>(var`val`: T, var left: TreeNode<T>? = null, var right: Tr
             Mode.RECURSIVE -> inOrderTraversalByRecursive(this)
             Mode.LOOP -> inOrderTraversalByLoop(this)
         }
+    }
+
+    open fun levelOrderTraversal(): List<T> {
+        val result = mutableListOf<T>()
+        val queue = ArrayDeque<TreeNode<T>>()
+
+        queue.add(this)
+
+        while (queue.isNotEmpty()) {
+            val node = queue.removeFirst()
+            result.add(node.`val`)
+
+            node.left?.let { queue.addLast(it) }
+            node.right?.let { queue.addLast(it) }
+        }
+
+        return result
     }
 }
 
@@ -90,8 +142,8 @@ fun <T> preOrderTraversalByLoop(root: TreeNode<T>?): List<T> {
         result.add(node.`val`)
 
         // 오른쪽을 먼저 push (나중에 방문)
-        node.right?.let { stack.add(it) }
-        node.left?.let { stack.add(it) }
+        node.right?.let { stack.push(it) }
+        node.left?.let { stack.push(it) }
     }
 
     return result
@@ -165,14 +217,34 @@ fun main() {
         )
     )
 
-    println("전위 순회: ${sampleTree.preOrderTraversal()}")  // [10, 5, 3, 7, 15, 12, 20]
-    println("중위 순회: ${sampleTree.inOrderTraversal()}")   // [3, 5, 7, 10, 12, 15, 20]
-    println("후위 순회: ${sampleTree.postOrderTraversal()}")  // [3, 7, 5, 12, 20, 15, 10]
+    val expectedPreOrderTraversal = listOf(10, 5, 3, 7, 15, 12, 20)
+    val expectedInOrderTraversal = listOf(3, 5, 7, 10, 12, 15, 20)
+    val expectedPostOrderTraversal = listOf(3, 7, 5, 12, 20, 15, 10)
+    val expectedLevelOrderTraversal = listOf(10, 5, 15, 3, 7, 12, 20)
 
-    check(sampleTree.preOrderTraversal() == listOf(10, 5, 3, 7, 15, 12, 20))
-    check(sampleTree.inOrderTraversal() == listOf(3, 5, 7, 10, 12, 15, 20))
-    check(sampleTree.postOrderTraversal() == listOf(3, 7, 5, 12, 20, 15, 10))
-    check(sampleTree.preOrderTraversal(mode = TreeNode.Mode.LOOP) == listOf(10, 5, 3, 7, 15, 12, 20))
-    check(sampleTree.inOrderTraversal(mode = TreeNode.Mode.LOOP) == listOf(3, 5, 7, 10, 12, 15, 20))
-    check(sampleTree.postOrderTraversal(mode = TreeNode.Mode.LOOP) == listOf(3, 7, 5, 12, 20, 15, 10))
+    val actualPreOrderTraversal = sampleTree.preOrderTraversal()
+    val actualInOrderTraversal = sampleTree.inOrderTraversal()
+    val actualPostOrderTraversal = sampleTree.postOrderTraversal()
+    val actualLevelOrderTraversal = sampleTree.levelOrderTraversal()
+
+    println("전위 순회: $actualPreOrderTraversal")  // [10, 5, 3, 7, 15, 12, 20]
+    println("중위 순회: $actualInOrderTraversal")   // [3, 5, 7, 10, 12, 15, 20]
+    println("후위 순회: $actualPostOrderTraversal")  // [3, 7, 5, 12, 20, 15, 10]
+    println("레벨 순회: $actualLevelOrderTraversal") // [10, 5, 15, 3, 7, 12, 20]
+
+    check(actualPreOrderTraversal == expectedPreOrderTraversal)
+    check(actualInOrderTraversal == expectedInOrderTraversal)
+    check(actualPostOrderTraversal == expectedPostOrderTraversal)
+    check(actualLevelOrderTraversal == expectedLevelOrderTraversal)
+    check(sampleTree.preOrderTraversal(mode = TreeNode.Mode.LOOP) == expectedPreOrderTraversal)
+    check(sampleTree.inOrderTraversal(mode = TreeNode.Mode.LOOP) == expectedInOrderTraversal)
+    check(sampleTree.postOrderTraversal(mode = TreeNode.Mode.LOOP) == expectedPostOrderTraversal)
+
+    println("Tree Node Count: ${sampleTree.getNodeCount()}")
+    println("Tree Leaf Node Count: ${sampleTree.getLeafNodeCount()}")
+    println("Tree Height: ${sampleTree.getHeight()}")
+
+    check(sampleTree.getNodeCount() == 7)
+    check(sampleTree.getLeafNodeCount() == 4)
+    check(sampleTree.getHeight() == 3)
 }
