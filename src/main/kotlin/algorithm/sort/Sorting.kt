@@ -150,29 +150,33 @@ object SortingAlgorithm {
         val midIndex = (startIndexInclude + endIndexExclude) / 2
         mergeSort(list, startIndexInclude, midIndex, comparator)
         mergeSort(list, midIndex, endIndexExclude, comparator)
+        merge(list, startIndexInclude, midIndex, endIndexExclude, comparator)
+    }
 
+    private fun <T:Comparable<T>> merge(list: MutableList<T>, startIndexInclude: Int, midIndex: Int, endIndexExclude: Int,
+                                        comparator: Comparator<T> = Comparator.naturalOrder()) {
         var leftIndex = startIndexInclude
         var rightIndex = midIndex
-        var resultIndex = 0
+        var mergedIndex = 0
 
         val mergedList = list.subList(startIndexInclude, endIndexExclude).toMutableList()
 
         while (leftIndex < midIndex && rightIndex < endIndexExclude) {
             if (comparator.compare(list[leftIndex], list[rightIndex]) < 0) {
-                mergedList[resultIndex++] = list[leftIndex]
+                mergedList[mergedIndex++] = list[leftIndex]
                 leftIndex++
             } else {
-                mergedList[resultIndex++] = list[rightIndex]
+                mergedList[mergedIndex++] = list[rightIndex]
                 rightIndex++
             }
         }
 
         while (leftIndex < midIndex) {
-            mergedList[resultIndex++] = list[leftIndex++]
+            mergedList[mergedIndex++] = list[leftIndex++]
         }
 
         while (rightIndex < endIndexExclude) {
-            mergedList[resultIndex++] = list[rightIndex++]
+            mergedList[mergedIndex++] = list[rightIndex++]
         }
 
         (startIndexInclude until endIndexExclude).forEach {
