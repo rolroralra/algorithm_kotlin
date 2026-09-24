@@ -10,5 +10,5 @@ fun main() {
 private fun addToArrayForm(num: IntArray, k: Int): List<Int> {
     val result = num.joinToString("", "", "").toBigInteger().plus(k.toBigInteger())
 
-    return result.toString().chars().map{ it - '0'.toInt() }.toArray().toList()
+    return result.toString().chars().map{ it - '0'.code }.toArray().toList()
 }

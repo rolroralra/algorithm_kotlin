@@ -1,4 +1,4 @@
-package algorithm
+package algorithm.segmenttree
 
 import java.util.*
 import java.util.function.BinaryOperator

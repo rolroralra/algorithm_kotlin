@@ -141,6 +141,11 @@ object SortingAlgorithm {
         return result
     }
 
+    fun <T:Comparable<T>> shellSort(list: List<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
+                                   comparator: Comparator<T> = Comparator.naturalOrder()): List<T> {
+        TODO("Implement shell sorting")
+    }
+
     private fun <T:Comparable<T>> mergeSort(list: MutableList<T>, startIndexInclude: Int = 0, endIndexExclude: Int = list.size,
                                             comparator: Comparator<T> = Comparator.naturalOrder()) {
         if (startIndexInclude >= endIndexExclude - 1) {

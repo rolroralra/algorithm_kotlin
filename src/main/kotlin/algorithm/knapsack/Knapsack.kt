@@ -1,4 +1,4 @@
-package algorithm
+package algorithm.knapsack
 
 fun main() {
     knapsack(listOf(6, 4, 3, 5), listOf(13, 8, 6, 12), 12)

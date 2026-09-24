@@ -1,4 +1,4 @@
-package algorithm
+package algorithm.binarysearch
 
 fun main() {
     println(lowerBound(listOf(1,2,3,3,3,4,5,6,7,8), 3)) // 2
