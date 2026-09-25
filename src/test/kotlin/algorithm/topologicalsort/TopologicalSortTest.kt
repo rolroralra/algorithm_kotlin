@@ -12,7 +12,7 @@ class TopologicalSortTest {
         @JvmStatic
         fun implementations(): List<(List<List<Int>>) -> Pair<List<Int>, Boolean>> = listOf(
             { adjacentList -> topologicalSortByDfs(adjacentList) },
-            { adjacentList -> topologicalSortByIndegree(adjacentList) },
+            { adjacentList -> topologicalSortByBfsWithIndegree(adjacentList) },
         )
     }
 

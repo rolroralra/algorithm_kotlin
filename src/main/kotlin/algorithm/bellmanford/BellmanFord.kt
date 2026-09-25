@@ -3,6 +3,10 @@ package algorithm.bellmanford
 import java.util.Stack
 
 /**
+ * @param edges
+ * @param startIndex
+ * @param vertexSize
+ *
  * @return Triple of (distance list, previous-index list for path reconstruction, has-negative-cycle)
  */
 fun bellmanFord(edges: List<Triple<Int, Int, Int>>, startIndex: Int, vertexSize: Int): Triple<List<Long>, List<Int>, Boolean> {
@@ -40,6 +44,12 @@ fun bellmanFord(edges: List<Triple<Int, Int, Int>>, startIndex: Int, vertexSize:
     return Triple(distance, prevIndex, false)
 }
 
+/**
+ * @param prevIndex
+ * @param targetIndex
+ *
+ * @return shortestPath
+ */
 fun shortestPath(prevIndex: List<Int>, targetIndex: Int): List<Int> {
     val stack = Stack<Int>()
 
