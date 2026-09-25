@@ -5,5 +5,20 @@ package algorithm.backtracking
  * [isVisited] again before returning so the caller sees no residual state.
  */
 fun backtracking(graph: List<List<Int>>, isVisited: MutableList<Boolean>, index: Int, vararg extra: Any?) {
-    TODO("Implement backtracking traversal that unmarks visited state on the way back")
+    if (isVisited[index]) {
+        return
+    }
+
+    isVisited[index] = true
+
+    for (nextIndex in graph[index]) {
+        if (isVisited[nextIndex]) {
+            continue
+        }
+
+        backtracking(graph, isVisited, index, extra)
+    }
+
+    isVisited[index] = false
+
 }
