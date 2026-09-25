@@ -5,10 +5,8 @@ import org.junit.jupiter.api.Test
 
 class FloydWarshallTest {
 
-    private val infinity = Long.MAX_VALUE / 2
-
     private fun buildMatrix(n: Int, edges: List<Triple<Int, Int, Int>>): List<List<Long>> {
-        val matrix = MutableList(n) { MutableList(n) { infinity } }
+        val matrix = MutableList(n) { MutableList(n) { Long.MAX_VALUE } }
         edges.forEach { (a, b, weight) -> matrix[a][b] = weight.toLong() }
         return matrix
     }
@@ -40,8 +38,8 @@ class FloydWarshallTest {
 
         val (distance, _) = floydWarshall(matrix)
 
-        assertEquals(infinity, distance[0][2])
-        assertEquals(infinity, distance[2][0])
+        assertEquals(Long.MAX_VALUE, distance[0][2])
+        assertEquals(Long.MAX_VALUE, distance[2][0])
     }
 
     @Test
