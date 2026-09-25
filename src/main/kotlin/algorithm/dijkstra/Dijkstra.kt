@@ -1,16 +1,109 @@
 package algorithm.dijkstra
 
+import algorithm.heap.Heap
+import java.util.PriorityQueue
+import java.util.Stack
+import kotlin.to
+
 /**
- * @return Pair of (distance list, previous-index list for path reconstruction)
+ * @param graph Adjacency List for graph
+ * @param startIndex source index
+ *
+ * @return Pair of (distance list, previous-index list) satisfying shortest path
  */
 fun dijkstraByPriorityQueue(graph: List<List<Pair<Int, Int>>>, startIndex: Int): Pair<List<Long>, List<Int>> {
-    TODO("Implement Dijkstra using java.util.PriorityQueue")
+    val isVisited = MutableList(graph.size) { false }
+    val prevIndex = MutableList(graph.size) { -1 }
+    val distance = MutableList(graph.size) { Long.MAX_VALUE }
+
+    val queue = PriorityQueue<Pair<Int, Long>>(Comparator.comparing { it.second })
+
+    distance[startIndex] = 0
+    queue.add(startIndex to 0)
+
+    while (queue.isNotEmpty()) {
+        val (currIndex, _) = queue.poll()
+
+        if (isVisited[currIndex]) {
+            continue
+        }
+
+        isVisited[currIndex] = true
+
+        for ((nextIndex, edgeLength) in graph[currIndex]) {
+            val nextDistanceCandidate = distance[currIndex] + edgeLength
+
+            if (distance[nextIndex] > nextDistanceCandidate) {
+                distance[nextIndex] = nextDistanceCandidate
+                prevIndex[nextIndex] = currIndex
+
+                queue.add(nextIndex to nextDistanceCandidate)
+            }
+        }
+    }
+
+    return distance to prevIndex
+
 }
 
+/**
+ *  @param graph Adjacency List for graph
+ *  @param startIndex source index
+ *
+ * @return Pair of (distance list, previous-index list) satisfying shortest path
+ */
 fun dijkstraByHeap(graph: List<List<Pair<Int, Int>>>, startIndex: Int): Pair<List<Long>, List<Int>> {
-    TODO("Implement Dijkstra using algorithm.heap.Heap")
+    val isVisited = MutableList(graph.size) { false }
+    val prevIndex = MutableList(graph.size) { -1 }
+    val distance = MutableList(graph.size) { Long.MAX_VALUE }
+
+    val queue = Heap<IndexWithDistance>()
+
+    distance[startIndex] = 0
+    queue.add(IndexWithDistance(startIndex, 0))
+
+    while (queue.isNotEmpty()) {
+        val (currIndex, _) = queue.poll()
+
+        if (isVisited[currIndex]) {
+            continue
+        }
+
+        isVisited[currIndex] = true
+
+        for ((nextIndex, edgeLength) in graph[currIndex]) {
+            val nextDistanceCandidate = distance[currIndex] + edgeLength
+            if (distance[nextIndex] > nextDistanceCandidate) {
+                distance[nextIndex] = nextDistanceCandidate
+                prevIndex[nextIndex] = currIndex
+
+                queue.add(IndexWithDistance(nextIndex, nextDistanceCandidate))
+            }
+        }
+    }
+
+    return distance to prevIndex
 }
 
+/**
+ * @param prevIndex}
+ * @param targetIndex
+ *
+ * @return shortest path
+ */
 fun shortestPath(prevIndex: List<Int>, targetIndex: Int): List<Int> {
-    TODO("Implement shortest path reconstruction from prevIndex")
+    val stack = Stack<Int>()
+
+    var currIndex = targetIndex
+    while (currIndex >= 0) {
+        stack.push(currIndex)
+        currIndex = prevIndex[currIndex]
+    }
+
+    return stack.toList().reversed()
+
+}
+
+private data class IndexWithDistance(val index: Int, val distance: Long) : Comparable<IndexWithDistance> {
+    override fun compareTo(other: IndexWithDistance): Int = distance.compareTo(other.distance)
 }
