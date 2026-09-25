@@ -40,8 +40,8 @@ private fun addUsedTime(timeList: MutableMap<String, Long>, prevTimeStamp: Long,
     return currTimeStamp
 }
 
-fun <T:Comparable<T>> List<T>.isSorted(): Boolean {
-    return this.sorted().withIndex().all { it.value == this[it.index] }
+fun <T:Comparable<T>> List<T>.isSorted(comparator: Comparator<T> = Comparator.naturalOrder()): Boolean {
+    return this.sortedWith(comparator).withIndex().all { it.value == this[it.index] }
 }
 
 object SortingAlgorithm {
@@ -59,7 +59,7 @@ object SortingAlgorithm {
             result.swap(i, minIndex)
         }
 
-        checkSortResult(result)
+        checkSortResult(result, comparator)
 
         return result
     }
@@ -77,7 +77,7 @@ object SortingAlgorithm {
             }
         }
 
-        checkSortResult(result)
+        checkSortResult(result, comparator)
 
         return result
     }
@@ -99,7 +99,7 @@ object SortingAlgorithm {
             }
         }
 
-        checkSortResult(result)
+        checkSortResult(result, comparator)
 
         return result
     }
@@ -110,7 +110,7 @@ object SortingAlgorithm {
 
         mergeSort(result, startIndexInclude, endIndexExclude, comparator)
 
-        checkSortResult(result)
+        checkSortResult(result, comparator)
 
         return result
     }
@@ -121,7 +121,7 @@ object SortingAlgorithm {
 
         quickSort(result, startIndexInclude, endIndexExclude, comparator)
 
-        checkSortResult(result)
+        checkSortResult(result, comparator)
 
         return result
     }
@@ -136,7 +136,7 @@ object SortingAlgorithm {
             result.add(heap.poll())
         }
 
-        checkSortResult(result)
+        checkSortResult(result, comparator)
 
         return result
     }
@@ -216,7 +216,7 @@ object SortingAlgorithm {
         this[index1] = this[index2].also { this[index2] = this[index1] }
     }
 
-    private fun <T:Comparable<T>> checkSortResult(result: List<T>) {
-        check(result.isSorted()) { "Failed to sort. This is wrong algorithm." }
+    private fun <T:Comparable<T>> checkSortResult(result: List<T>, comparator: Comparator<T> = Comparator.naturalOrder()) {
+        check(result.isSorted(comparator)) { "Failed to sort. This is wrong algorithm." }
     }
 }

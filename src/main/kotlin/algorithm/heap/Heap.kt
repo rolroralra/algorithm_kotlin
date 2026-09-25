@@ -70,6 +70,10 @@ open class Heap<T : Comparable<T>>(
     }
 
     fun heapifyBottomUp() {
+        if (isEmpty() || size() == 1) {
+            return
+        }
+
         for (i in parentIndex(lastIndex()) downTo ROOT_INDEX) {
             siftDown(i)
         }
