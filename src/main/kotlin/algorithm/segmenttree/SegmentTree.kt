@@ -1,32 +1,7 @@
 package algorithm.segmenttree
 
-import java.util.*
 import java.util.function.BinaryOperator
 
-fun main() {
-    SegmentTree(
-        arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9),
-        Int::plus
-    ).apply {
-        check(query(0, 8) == 45)
-        check(query(0, 4) == 15)
-        check(query(4, 8) == 35)
-
-        println(query(0, 8))    // 45
-        println(query(0, 4))    // 15
-        println(query(4, 8))    // 35
-
-        update(0, 10)
-
-        check(query(0, 8) == 54)
-        check(query(0, 4) == 24)
-        check(query(4, 8) == 35)
-
-        println(query(0, 8))    // 54
-        println(query(0, 4))    // 24
-        println(query(4, 8))    // 35
-    }
-}
 
 class SegmentTree<T> (
     size: Int,
@@ -172,5 +147,30 @@ class SegmentTree<T> (
 
     companion object {
         private const val ROOT_NODE_BASE_INDEX = 0
+    }
+}
+
+fun main() {
+    SegmentTree(
+        arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9),
+        Int::plus
+    ).apply {
+        check(query(0, 8) == 45)
+        check(query(0, 4) == 15)
+        check(query(4, 8) == 35)
+
+        println(query(0, 8))    // 45
+        println(query(0, 4))    // 15
+        println(query(4, 8))    // 35
+
+        update(0, 10)
+
+        check(query(0, 8) == 54)
+        check(query(0, 4) == 24)
+        check(query(4, 8) == 35)
+
+        println(query(0, 8))    // 54
+        println(query(0, 4))    // 24
+        println(query(4, 8))    // 35
     }
 }

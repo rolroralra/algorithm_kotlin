@@ -10,23 +10,23 @@ class FenwickTreeTest {
 
     private fun buildTree(values: List<Int>): FenwickTree {
         val tree = FenwickTree(values.size)
-        values.forEachIndexed { index, value -> tree.update(index + 1, value) }
+        values.forEachIndexed { index, value -> tree.update(index, value) }
         return tree
     }
 
     @Test
     fun `전체 구간 합을 구한다`() {
-        assertEquals(15, buildTree(listOf(1, 2, 3, 4, 5)).query(1, 5))
+        assertEquals(15, buildTree(listOf(1, 2, 3, 4, 5)).query(0, 4))
     }
 
     @Test
     fun `부분 구간 합을 구한다`() {
-        assertEquals(9, buildTree(listOf(1, 2, 3, 4, 5)).query(2, 4))
+        assertEquals(9, buildTree(listOf(1, 2, 3, 4, 5)).query(1, 3))
     }
 
     @Test
     fun `단일 인덱스를 조회한다`() {
-        assertEquals(3, buildTree(listOf(1, 2, 3, 4, 5)).query(3, 3))
+        assertEquals(3, buildTree(listOf(1, 2, 3, 4, 5)).query(2, 2))
     }
 
     @Test
@@ -34,8 +34,8 @@ class FenwickTreeTest {
         val tree = buildTree(listOf(1, 2, 3, 4, 5))
         tree.update(3, 10)
 
-        assertEquals(13, tree.query(3, 3))
-        assertEquals(25, tree.query(1, 5))
+        assertEquals(14, tree.query(3, 3))
+        assertEquals(24, tree.query(1, 4))
     }
 
     @ParameterizedTest

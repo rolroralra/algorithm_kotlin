@@ -3,9 +3,9 @@ package algorithm.bellmanford
 import java.util.Stack
 
 /**
- * @param edges
- * @param startIndex
- * @param vertexSize
+ * @param edges List of edges represented as Triple(fromIndex, toIndex, edgeLength)
+ * @param startIndex Index of the starting vertex
+ * @param vertexSize Number of vertices in the graph
  *
  * @return Triple of (distance list, previous-index list for path reconstruction, has-negative-cycle)
  */
@@ -15,12 +15,14 @@ fun bellmanFord(edges: List<Triple<Int, Int, Int>>, startIndex: Int, vertexSize:
 
     distance[startIndex] = 0
 
-    IntRange(0, edges.size - 1).forEach { _ ->
+    // Relax edges repeatedly V-1 times (where V is the number of vertices)
+    IntRange(0, vertexSize - 2).forEach { _ ->
         for ((fromIndex, toIndex, edgeLength) in edges) {
             if (distance[fromIndex] == Long.MAX_VALUE) {
                 continue
             }
 
+            // Update distance and prevIndex if a shorter path is found
             val candidateDistance = distance[fromIndex] + edgeLength
             if (distance[toIndex] > candidateDistance) {
                 distance[toIndex] = candidateDistance
@@ -35,6 +37,7 @@ fun bellmanFord(edges: List<Triple<Int, Int, Int>>, startIndex: Int, vertexSize:
             continue
         }
 
+        // If we can still relax an edge, then there is a negative cycle
         val candidateDistance = distance[fromIndex] + edgeLength
         if (distance[toIndex] > candidateDistance) {
             return Triple(distance, prevIndex, true)
@@ -45,10 +48,10 @@ fun bellmanFord(edges: List<Triple<Int, Int, Int>>, startIndex: Int, vertexSize:
 }
 
 /**
- * @param prevIndex
- * @param targetIndex
+ * @param prevIndex List of previous indices for path reconstruction
+ * @param targetIndex Index of the target vertex
  *
- * @return shortestPath
+ * @return List of vertex indices representing the shortest path from the start vertex to the target vertex
  */
 fun shortestPath(prevIndex: List<Int>, targetIndex: Int): List<Int> {
     val stack = Stack<Int>()

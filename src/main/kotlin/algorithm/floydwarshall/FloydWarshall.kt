@@ -26,6 +26,7 @@ fun floydWarshall(adjacentMatrix: List<List<Long>>): Pair<List<List<Long>>, List
         }
     }
 
+    // Floyd-Warshall algorithm
     for (k in 0 until vertexCount) {
         for (i in 0 until vertexCount) {
             if (distance[i][k] >= Long.MAX_VALUE) {
@@ -39,6 +40,7 @@ fun floydWarshall(adjacentMatrix: List<List<Long>>): Pair<List<List<Long>>, List
 
                 val minDistanceCandidate = distance[i][k] + distance[k][j]
 
+                // Update distance and prevIndex if a shorter path is found
                 if (distance[i][j] > minDistanceCandidate) {
                     distance[i][j] = minDistanceCandidate
                     prevIndex[i][j] = prevIndex[k][j]
@@ -50,6 +52,13 @@ fun floydWarshall(adjacentMatrix: List<List<Long>>): Pair<List<List<Long>>, List
     return distance to prevIndex
 }
 
+/**
+ * @param prevIndex List of previous indices for path reconstruction
+ * @param fromIndex Index of the starting vertex
+ * @param toIndex Index of the target vertex
+ *
+ * @return List of vertex indices representing the shortest path from the start vertex to the target vertex
+ */
 fun shortestPath(prevIndex: List<List<Int>>, fromIndex: Int, toIndex: Int): List<Int> {
     if (prevIndex[fromIndex][toIndex] < 0) {
         return emptyList()

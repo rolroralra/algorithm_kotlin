@@ -86,10 +86,10 @@ fun dijkstraByHeap(graph: List<List<Pair<Int, Int>>>, startIndex: Int): Pair<Lis
 }
 
 /**
- * @param prevIndex}
- * @param targetIndex
+ * @param prevIndex List of previous indices for path reconstruction
+ * @param targetIndex Index of the target vertex
  *
- * @return shortest path
+ * @return List of vertex indices representing the shortest path from the start vertex to the target vertex
  */
 fun shortestPath(prevIndex: List<Int>, targetIndex: Int): List<Int> {
     val stack = Stack<Int>()
